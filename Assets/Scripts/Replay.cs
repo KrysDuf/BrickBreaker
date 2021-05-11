@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Replay : MonoBehaviour
 {   
-    private int currentIndex;
+    private int index;
     public GameManager gameManager;
-    private List<ReplayRecord> actionReplayRecords = new List<ReplayRecord>();
+    private List<ReplayRecord> replayRecords = new List<ReplayRecord>();
     // Start is called before the first frame update
     void Start()
     {
@@ -22,28 +22,28 @@ public class Replay : MonoBehaviour
     void FixedUpdate(){
         if (!gameManager.gameOver && !gameManager.recordingFinished)
         {
-             actionReplayRecords.Add(new ReplayRecord { position = transform.position});
+             replayRecords.Add(new ReplayRecord { position = transform.position});
         }
         else if(gameManager.runReplay && !gameManager.gameOver)
         {
-            currentIndex++;
+            index++;
 
-            if (currentIndex < actionReplayRecords.Count)
+            if (index < replayRecords.Count)
             {
-                SetTransform(currentIndex);   
+                SetTransform(index);   
             }else{
                 gameManager.GameOver();
                 gameManager.runReplay = false;
-                currentIndex = 0;
+                index = 0;
             }
         }
     }
 
-    private void SetTransform(int index)
+    private void SetTransform(int i)
     {
-        currentIndex = index;
-        ReplayRecord actionReplayRecord = actionReplayRecords[index];
+        index = i;
+        ReplayRecord replayRecord = replayRecords[index];
 
-        transform.position = actionReplayRecord.position;
+        transform.position = replayRecord.position;
     }
 }
